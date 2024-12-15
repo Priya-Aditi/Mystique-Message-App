@@ -15,7 +15,7 @@ const Home = () => {
     <>
     <main className='flex-grow flex flex-col items-center justify-center px-4 md:px-24 py-12'>
       <section className='text-center mb-8 md:mb-12'>
-        <h1 className='text-3xl md:text-5xl font-bold'>Discover Shade Message!</h1>
+        <h1 className='text-3xl md:text-5xl font-bold'>Discover Mystique Message!</h1>
         <p className='mt-3 md:mt-4 text-base md:text-lg'>A place where anonymity meets conversations—take turns and share your thoughts freely!</p>
       </section>
       <Carousel 
@@ -43,7 +43,7 @@ const Home = () => {
       <CarouselNext />
     </Carousel> 
     </main>
-    <footer className="text-center p-4 md:p-6">2024 Shade Message. All rights reserved.</footer>
+    <footer className="text-center p-4 md:p-6">2024 Mystique Message. All rights reserved.</footer>
     </>
   )
 }

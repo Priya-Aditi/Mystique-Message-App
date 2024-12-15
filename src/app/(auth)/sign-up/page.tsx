@@ -92,7 +92,7 @@ const page = () => {
         <div className="flex justify-center items-center min-h-screen bg-gray-100">
         <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
             <div className="text-center">
-            <h1 className="text-4xl font-extrabold tracking-tight log:text-5xl mb-6">Join Shade Message</h1>
+            <h1 className="text-4xl font-extrabold tracking-tight log:text-5xl mb-6">Join Mystique Message</h1>
             <p className="mb-4">Sign up to start sending anonymous messages</p>
             </div>
             <Form {...form}>                                                          
