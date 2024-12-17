@@ -1,7 +1,7 @@
 'use client'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import *as z from "zod"
+import * as z from "zod"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import { useDebounceValue, useDebounceCallback } from 'usehooks-ts'
@@ -21,10 +21,8 @@ import { signIn } from "next-auth/react"
 
 
 const page = () => {
-  
-
-    const { toast } = useToast()
     const router = useRouter();
+    const { toast } = useToast();
 
     // zod implementation
     const form = useForm<z.infer<typeof signInSchema>>({     // we can add resolver     <z.infer>(optional)- it is typescript that shows what type of value will infer in z
@@ -39,21 +37,29 @@ const page = () => {
     const onSubmit = async (data: z.infer<typeof signInSchema>) => {
         // using nextAuth we will do signIn
         const result = await signIn('credentials', {
-          redirect: false,
-          identifier: data.identifier,
-          password: data.password
+            redirect: false,
+            identifier: data.identifier,
+            password: data.password
         })
         // there can be error in result
         if (result?.error) {
-          toast({
-            title: "Login failed",
-            description: "Incorrect username or password",
-            variant: "destructive"
-          })
-        } 
+            if (result.error === 'CredentialsSignIn') {
+                toast({
+                title: "Login failed",
+                description: "Incorrect username or password",
+                variant: "destructive"
+            })
+            } else {
+                toast({
+                    title: 'Error',
+                    description: result.error,
+                    variant: 'destructive',
+        });
+    }
+} 
 
         if (result?.url) {
-          router.replace('/dashboard')
+            router.replace('/dashboard')
         }
     }
 
@@ -97,8 +103,8 @@ const page = () => {
                     </FormItem>
                 )}
                 />
-                <Button type="submit" >
-                Signin
+                <Button className='w-full' type="submit">
+                Sign In
                 </Button>
             </form>
             </Form>

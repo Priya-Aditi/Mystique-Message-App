@@ -21,7 +21,7 @@ export async function GET(request: Request) {
     await dbConnect();
     
     try {
-        const {searchParams} = new URL(request.url)
+        const {searchParams} = new URL(request.url);
         // now from searchParam we need to find out my query out of many query
         const queryParam = {
             username: searchParams.get('username')

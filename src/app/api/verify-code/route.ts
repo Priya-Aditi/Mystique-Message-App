@@ -1,13 +1,11 @@
 import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/model/User";
 
-
 export async function POST(request: Request) {
     await dbConnect();
 
     try {
         const { username, code }= await request.json();
-
         // url decoding function
         const decodedUsername = decodeURIComponent(username);
         const user = await UserModel.findOne({username: decodedUsername})
@@ -20,7 +18,7 @@ export async function POST(request: Request) {
                     success: false,
                     message: "User not found"
                 },
-                {status: 500} 
+                {status: 404} 
             )
         }
 

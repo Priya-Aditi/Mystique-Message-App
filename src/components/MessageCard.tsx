@@ -22,8 +22,10 @@ import { Button } from "./ui/button"
 import { X } from "lucide-react"
 import { Message } from "@/model/User"
 import { useToast } from "@/hooks/use-toast"
-import axios from "axios"
+import axios, { AxiosError } from "axios"
 import { ApiResponse } from "@/types/ApiResponse"
+import React from "react"
+import dayjs from 'dayjs';
 
 type MessageCardProps = {
     message: Message;
@@ -33,16 +35,26 @@ type MessageCardProps = {
 const MessageCard = ({ message, onMessageDelete }: MessageCardProps) => {
     const {toast} = useToast()
     const handleDeleteConfirm = async () => {
-        const response = await axios.delete<ApiResponse>(`/api/delete-message/${message._id}`)            // axios fires a request to /api/delete-message/
-        toast({
-            title: response.data.message
-        })
-        onMessageDelete(message._id as string)
+        try {
+            const response = await axios.delete<ApiResponse>(`/api/delete-message/${message._id}`)            // axios fires a request to /api/delete-message/
+                toast({
+                    title: response.data.message
+                    })
+                onMessageDelete(message._id as string)
+        } catch (error) {
+            const axiosError = error as AxiosError<ApiResponse>;
+            toast({
+                title: 'Error',
+                description: axiosError.response?.data.message ?? 'Failed to delete message',
+                variant: 'destructive',
+            });
+        } 
     }
     return (
-        <Card>
+        <Card className="card-bordered">
             <CardHeader>
-                <CardTitle>Card Title</CardTitle>
+                <div className="flex justify-between items-center"></div>
+                <CardTitle>{message.content}</CardTitle>
                 <AlertDialog>
                     <AlertDialogTrigger asChild>
                         <Button variant="destructive"><X className="w-5 h-5"/> </Button>
@@ -61,14 +73,16 @@ const MessageCard = ({ message, onMessageDelete }: MessageCardProps) => {
                         </AlertDialogFooter>
                     </AlertDialogContent>
                 </AlertDialog>
-                <CardDescription>Card Description</CardDescription>
+                <div>
+                    <div className="text-sm">
+                        {dayjs(message.createdAt).format('MMM D, YYYY h:mm A')}
+                    </div>
+                </div>
             </CardHeader>
             <CardContent>
-                <p>Card Content</p>
             </CardContent>
-    </Card>
-
+        </Card>
     )
-    }
+}
 
 export default MessageCard

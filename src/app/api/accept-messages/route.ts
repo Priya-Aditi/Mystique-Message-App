@@ -6,11 +6,12 @@ import { User } from "next-auth";
 
 // POST request for currently logged in user when clicks on toggle can flip on/off accepting message 
 export async function POST(request: Request) {
+    // Connect to database 
     await dbConnect();
 
     const session = await getServerSession(authOptions)
     // optionally accessing user from session
-    const user: User = session?.user
+    const user: User = session?.user;
 
     if (!session || !session.user) {
         return Response.json(
@@ -28,6 +29,7 @@ export async function POST(request: Request) {
     const {acceptMessages} = await request.json()
 
     try {
+        // Update the user's message acceptance status
         const updatedUser = await UserModel.findByIdAndUpdate(
             userId,
             { isAcceptingMessage: acceptMessages},
@@ -35,6 +37,7 @@ export async function POST(request: Request) {
         )
 
         if (!updatedUser) {
+            // User not found
             return Response.json(
                 {
                     success: false,
@@ -43,7 +46,7 @@ export async function POST(request: Request) {
                 { status: 401 }
             )
         }
-        // else-part
+        // else-part -> Successfully updated message acceptance status
         return Response.json(
                 {
                     success: true,
@@ -89,6 +92,7 @@ export async function GET(request: Request) {
     const userId = user._id;
 
     try {
+        // Retrieve the user from the database using the ID
         const foundUser = await UserModel.findById(userId)
     
         if (!foundUser) {
@@ -101,6 +105,7 @@ export async function GET(request: Request) {
                 )
             }
     
+            // Return the user's message acceptance status 
             return Response.json(
                     {
                         success: true,

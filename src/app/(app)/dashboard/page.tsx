@@ -14,7 +14,7 @@ import { Loader2, RefreshCcw } from "lucide-react"
 import { useSession } from "next-auth/react"
 import { useCallback, useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
-import { Key } from "react";
+
 
 const page = () => {
   const [messages, setMessages] = useState<Message[]>([])
@@ -37,7 +37,6 @@ const page = () => {
 
   // extracting from form
   const {register, watch, setValue} = form;
-
   const acceptMessages = watch('acceptMessages')
 
   // use apicalls 
@@ -56,7 +55,7 @@ const page = () => {
     } finally {
       setIsSwitchLoading(false)
     }
-  }, [setValue])
+  }, [setValue, toast])
 
   const fetchMessages = useCallback( async (refresh: boolean = false) => {
     setIsLoading(true)
@@ -81,13 +80,13 @@ const page = () => {
         setIsLoading(false)
         setIsSwitchLoading(false)
     }
-  },[setIsLoading, setMessages])
+  },[setIsLoading, setMessages, toast])
 
   useEffect(() => {
     if(!session || !session.user) return
     fetchMessages()
     fetchAcceptMessage()
-  }, [session, setValue, fetchAcceptMessage, fetchMessages])
+  }, [session, setValue, toast, fetchAcceptMessage, fetchMessages])
 
   // handle switch change
   const handleSwitchChange = async() => {

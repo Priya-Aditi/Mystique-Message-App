@@ -37,14 +37,14 @@ const VerifyAccount = () => {
                 title: "Success",
                 description: response.data.message
             })
-            router.replace('sign-in')
+            router.replace('/sign-in')
 
         } catch (error) {
             console.error("Error in signup of user", error)
         const axiosError = error as AxiosError<ApiResponse>; 
         toast({
-            title: "Signup failed",
-            description: axiosError.response?.data.message,
+            title: "Verification Failed",
+            description: axiosError.response?.data.message ?? 'An error occurred. Please try again.',
             variant: "destructive"
         })
         }
@@ -73,7 +73,7 @@ const VerifyAccount = () => {
                     </FormItem>
                 )}
                 />
-                <Button type="submit">Submit</Button>
+                <Button type="submit">Verify</Button>
             </form>
             </Form>
             </div>

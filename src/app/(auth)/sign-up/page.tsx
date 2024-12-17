@@ -1,7 +1,7 @@
 'use client'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import *as z from "zod"
+import * as z from "zod"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import { useDebounceValue, useDebounceCallback } from 'usehooks-ts'
@@ -76,11 +76,11 @@ const page = () => {
         router.replace(`/verify/${username}`)                                         // when signup success, then tale user to /verify/username    
         setIsSubmitting(false)
         } catch (error) {
-        console.error("Error in signup of user", error)
+        console.error("Error during sign-up", error)
         const axiosError = error as AxiosError<ApiResponse>;
         let errorMessage = axiosError.response?.data.message
         toast({
-            title: "Signup failed",
+            title: "Sign Up Failed",
             description: errorMessage,
             variant: "destructive"
         })

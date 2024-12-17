@@ -13,7 +13,7 @@ export async function sendVerificationEmail(
         await resend.emails.send({
             from: 'onboarding@resend.dev',
             to: email,
-            subject: 'Shade Message Verification Code',
+            subject: 'Mystique Message Verification Code',
             react: VerificationEmail({username, otp: verifyCode}),
         });
         return {success: true, message: 'Verification email sent successfully'};

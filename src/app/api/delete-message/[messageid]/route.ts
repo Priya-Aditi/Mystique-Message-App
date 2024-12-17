@@ -5,15 +5,15 @@ import UserModel from "@/model/User";
 import { User } from "next-auth";
 
 
-export async function DELETE(request: Request, {params}: {params: {messageid: string}}) {
+export async function DELETE(
+    request: Request, {params}: {params: {messageid: string}}) {
     //before connecting to db we will extract the message if first
     const messageId = params.messageid
     await dbConnect();
-
     const session = await getServerSession(authOptions)
-    const user: User = session?.user
+    const _user: User = session?.user
 
-    if (!session || !session.user) {
+    if (!session || !_user) {
         return Response.json(
             {
                 success: false,
@@ -27,7 +27,7 @@ export async function DELETE(request: Request, {params}: {params: {messageid: st
     try {
         const updateResult = await UserModel.updateOne(
             // on which basis we will match
-            {_id: user._id},
+            {_id: _user._id},
             {$pull: {messages: {_id: messageId}}}
         )
         if (updateResult.modifiedCount == 0) {
@@ -55,7 +55,7 @@ export async function DELETE(request: Request, {params}: {params: {messageid: st
         console.log("Error is delete message route", error)
         return Response.json(
             {
-                success: true,
+                success: false,
                 message: "Error deleting message"
             },
             {

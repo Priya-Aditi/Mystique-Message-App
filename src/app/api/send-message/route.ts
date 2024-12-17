@@ -1,12 +1,9 @@
 import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/model/User";
 import { Message } from "@/model/User";
-import { CommandSucceededEvent } from "mongodb";
-import { use } from "react";
 
 export async function POST(request: Request) {
     await dbConnect();
-
     // values username and content taking from request.json
     const {username, content} = await request.json();
     try {
